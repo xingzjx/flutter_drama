@@ -32,23 +32,14 @@ class TikTokButtonColumn extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          Tapped(
-            child: TikTokAvatar(),
-            onTap: onAvatar,
-          ),
-          FavoriteIcon(
-            onFavorite: onFavorite,
-            isFavorite: isFavorite,
-          ),
-          _IconButton(
-            icon: IconToText(Icons.mode_comment, size: SysSize.iconBig - 4),
-            text: '4213',
-            onTap: onComment,
-          ),
           _IconButton(
             icon: IconToText(Icons.share, size: SysSize.iconBig),
             text: '346',
             onTap: onShare,
+          ),
+          FavoriteIcon(
+            onFavorite: onFavorite,
+            isFavorite: isFavorite,
           ),
           Container(
             width: SysSize.avatar,

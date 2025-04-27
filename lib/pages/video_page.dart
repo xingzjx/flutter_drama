@@ -94,31 +94,21 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     Widget? currentPage;
 
-    // switch (tabBarType) {
-    //   case TikTokPageTag.home:
-    //     break;
-    //   case TikTokPageTag.follow:
-    //     currentPage = FollowPage();
-    //     break;
-    //   case TikTokPageTag.msg:
-    //     currentPage = MsgPage();
-    //     break;
-    //   case TikTokPageTag.me:
-    //     currentPage = UserPage(isSelfPage: true);
-    //     break;
-    // }
     double a = MediaQuery.of(context).size.aspectRatio;
     bool hasBottomPadding = a < 0.55;
 
     // 组合
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(    // 左侧组件（默认自动生成返回按钮）
-            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,),
+        leading: IconButton(
+            // 左侧组件（默认自动生成返回按钮）
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.pop(context);
-            }
-        ),
+            }),
         title: Text("第一集"),
       ),
       body: Stack(
@@ -157,15 +147,7 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
                 },
                 onShare: () {},
               );
-              // video
-              Widget currentVideo = Center(
-                child: AspectRatio(
-                  aspectRatio: player.controller.value.aspectRatio,
-                  child: VideoPlayer(player.controller),
-                ),
-              );
-
-              currentVideo = TikTokVideoPage(
+              return TikTokVideoPage(
                 // 手势播放与自然播放都会产生暂停按钮状态变化，待处理
                 hidePauseIcon: !player.showPauseIcon.value,
                 aspectRatio: 9 / 16.0,
@@ -190,9 +172,13 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
                   });
                 },
                 rightButtonColumn: buttons,
-                video: currentVideo,
+                video: Center(
+                  child: AspectRatio(
+                    aspectRatio: player.controller.value.aspectRatio,
+                    child: VideoPlayer(player.controller),
+                  ),
+                ),
               );
-              return currentVideo;
             },
           ),
           currentPage ?? Container(),

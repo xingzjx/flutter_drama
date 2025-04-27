@@ -94,20 +94,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     Widget? currentPage;
-
-    // switch (tabBarType) {
-    //   case TikTokPageTag.home:
-    //     break;
-    //   case TikTokPageTag.follow:
-    //     currentPage = FollowPage();
-    //     break;
-    //   case TikTokPageTag.msg:
-    //     currentPage = MsgPage();
-    //     break;
-    //   case TikTokPageTag.me:
-    //     currentPage = UserPage(isSelfPage: true);
-    //     break;
-    // }
     double a = MediaQuery.of(context).size.aspectRatio;
     bool hasBottomPadding = a < 0.55;
 
