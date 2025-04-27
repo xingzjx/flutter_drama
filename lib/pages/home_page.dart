@@ -8,7 +8,6 @@ import 'package:safemap/safemap.dart';
 import 'package:video_player/video_player.dart';
 
 /// 单独修改了bottomSheet组件的高度
-import 'package:flutter_tiktok/other/bottomSheet.dart' as CustomBottomSheet;
 import 'package:visibility_detector/visibility_detector.dart';
 
 class HomePage extends StatefulWidget {

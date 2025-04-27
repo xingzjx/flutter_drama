@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:safemap/safemap.dart';
 import 'package:video_player/video_player.dart';
 
-/// 单独修改了bottomSheet组件的高度
-import 'package:flutter_tiktok/other/bottomSheet.dart' as CustomBottomSheet;
 
 class VideoPage extends StatefulWidget {
   @override
