@@ -123,7 +123,7 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
         // index: currentPage == null ? 0 : 1,
         children: <Widget>[
           PageView.builder(
-            key: Key('home'),
+            key: Key('video'),
             physics: QuickerScrollPhysics(),
             controller: _pageController,
             scrollDirection: Axis.vertical,

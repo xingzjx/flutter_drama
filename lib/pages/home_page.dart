@@ -14,6 +14,7 @@ import 'package:video_player/video_player.dart';
 
 /// 单独修改了bottomSheet组件的高度
 import 'package:flutter_tiktok/other/bottomSheet.dart' as CustomBottomSheet;
+import 'package:visibility_detector/visibility_detector.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -111,7 +112,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     bool hasBottomPadding = a < 0.55;
 
     // 组合
-    return Stack(
+    return VisibilityDetector(key: Key("home_page"), child: Stack(
       // index: currentPage == null ? 0 : 1,
       children: <Widget>[
         PageView.builder(
@@ -187,6 +188,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         ),
         currentPage ?? Container(),
       ],
-    );
+    ), onVisibilityChanged: (visibilityInfo) {
+      var visiblePercentage = visibilityInfo.visibleFraction * 100;
+      if(visiblePercentage == 100.0) {
+        _videoListController.currentPlayer.play();
+      } else {
+        _videoListController.currentPlayer.pause();
+      }
+    });
   }
 }
