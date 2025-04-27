@@ -1,16 +1,11 @@
 import 'package:flutter_tiktok/mock/video.dart';
 import 'package:flutter_tiktok/style/physics.dart';
-import 'package:flutter_tiktok/views/tikTokCommentBottomSheet.dart';
-import 'package:flutter_tiktok/views/tikTokScaffold.dart';
-import 'package:flutter_tiktok/views/tikTokVideo.dart';
-import 'package:flutter_tiktok/views/tikTokVideoButtonColumn.dart';
-import 'package:flutter_tiktok/controller/tikTokVideoListController.dart';
-import 'package:flutter_tiktok/views/tiktokTabBar.dart';
+import 'package:flutter_tiktok/views/drama_video.dart';
+import 'package:flutter_tiktok/views/drama_video_button_column.dart';
+import 'package:flutter_tiktok/controller/video_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:safemap/safemap.dart';
 import 'package:video_player/video_player.dart';
-
-
 
 /// 单独修改了bottomSheet组件的高度
 import 'package:flutter_tiktok/other/bottomSheet.dart' as CustomBottomSheet;
@@ -22,13 +17,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
-  TikTokPageTag tabBarType = TikTokPageTag.home;
-
-  TikTokScaffoldController tkController = TikTokScaffoldController();
-
   PageController _pageController = PageController();
 
-  TikTokVideoListController _videoListController = TikTokVideoListController();
+  VideoListController _videoListController = VideoListController();
 
   /// 记录点赞
   Map<int, bool> favoriteMap = {};
@@ -78,15 +69,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     _videoListController.addListener(() {
       setState(() {});
     });
-    tkController.addListener(
-      () {
-        if (tkController.value == TikTokPagePositon.middle) {
-          _videoListController.currentPlayer.play();
-        } else {
-          _videoListController.currentPlayer.pause();
-        }
-      },
-    );
 
     super.initState();
   }
@@ -98,89 +80,81 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     bool hasBottomPadding = a < 0.55;
 
     // 组合
-    return VisibilityDetector(key: Key("home_page"), child: Stack(
-      // index: currentPage == null ? 0 : 1,
-      children: <Widget>[
-        PageView.builder(
-          key: Key('home'),
-          physics: QuickerScrollPhysics(),
-          controller: _pageController,
-          scrollDirection: Axis.vertical,
-          itemCount: _videoListController.videoCount,
-          itemBuilder: (context, i) {
-            // 拼一个视频组件出来
-            bool isF = SafeMap(favoriteMap)[i].boolean;
-            var player = _videoListController.playerOfIndex(i)!;
-            var data = player.videoInfo!;
-            // 右侧按钮列
-            Widget buttons = TikTokButtonColumn(
-              isFavorite: isF,
-              onAvatar: () {
-                tkController.animateToPage(TikTokPagePositon.right);
-              },
-              onFavorite: () {
-                setState(() {
-                  favoriteMap[i] = !isF;
-                });
-                // showAboutDialog(context: context);
-              },
-              onComment: () {
-                CustomBottomSheet.showModalBottomSheet(
-                  backgroundColor: Colors.white.withOpacity(0),
-                  context: context,
-                  builder: (BuildContext context) =>
-                      TikTokCommentBottomSheet(),
+    return VisibilityDetector(
+        key: Key("home_page"),
+        child: Stack(
+          // index: currentPage == null ? 0 : 1,
+          children: <Widget>[
+            PageView.builder(
+              key: Key('home'),
+              physics: QuickerScrollPhysics(),
+              controller: _pageController,
+              scrollDirection: Axis.vertical,
+              itemCount: _videoListController.videoCount,
+              itemBuilder: (context, i) {
+                // 拼一个视频组件出来
+                bool isF = SafeMap(favoriteMap)[i].boolean;
+                var player = _videoListController.playerOfIndex(i)!;
+                var data = player.videoInfo!;
+                // 右侧按钮列
+                Widget buttons = DramaButtonColumn(
+                  isFavorite: isF,
+                  onFavorite: () {
+                    setState(() {
+                      favoriteMap[i] = !isF;
+                    });
+                    // showAboutDialog(context: context);
+                  },
+                  onShare: () {},
                 );
-              },
-              onShare: () {},
-            );
-            // video
-            Widget currentVideo = Center(
-              child: AspectRatio(
-                aspectRatio: player.controller.value.aspectRatio,
-                child: VideoPlayer(player.controller),
-              ),
-            );
+                // video
+                Widget currentVideo = Center(
+                  child: AspectRatio(
+                    aspectRatio: player.controller.value.aspectRatio,
+                    child: VideoPlayer(player.controller),
+                  ),
+                );
 
-            currentVideo = TikTokVideoPage(
-              // 手势播放与自然播放都会产生暂停按钮状态变化，待处理
-              hidePauseIcon: !player.showPauseIcon.value,
-              aspectRatio: 9 / 16.0,
-              key: Key(data.url + '$i'),
-              tag: data.url,
-              bottomPadding: hasBottomPadding ? 16.0 : 16.0,
-              userInfoWidget: VideoUserInfo(
-                desc: data.desc,
-                bottomPadding: hasBottomPadding ? 16.0 : 50.0,
-              ),
-              onSingleTap: () async {
-                if (player.controller.value.isPlaying) {
-                  await player.pause();
-                } else {
-                  await player.play();
-                }
-                setState(() {});
+                currentVideo = DramaVideoPage(
+                  // 手势播放与自然播放都会产生暂停按钮状态变化，待处理
+                  hidePauseIcon: !player.showPauseIcon.value,
+                  aspectRatio: 9 / 16.0,
+                  key: Key(data.url + '$i'),
+                  tag: data.url,
+                  bottomPadding: hasBottomPadding ? 16.0 : 16.0,
+                  userInfoWidget: VideoUserInfo(
+                    desc: data.desc,
+                    bottomPadding: hasBottomPadding ? 16.0 : 50.0,
+                  ),
+                  onSingleTap: () async {
+                    if (player.controller.value.isPlaying) {
+                      await player.pause();
+                    } else {
+                      await player.play();
+                    }
+                    setState(() {});
+                  },
+                  onAddFavorite: () {
+                    setState(() {
+                      favoriteMap[i] = true;
+                    });
+                  },
+                  rightButtonColumn: buttons,
+                  video: currentVideo,
+                );
+                return currentVideo;
               },
-              onAddFavorite: () {
-                setState(() {
-                  favoriteMap[i] = true;
-                });
-              },
-              rightButtonColumn: buttons,
-              video: currentVideo,
-            );
-            return currentVideo;
-          },
+            ),
+            currentPage ?? Container(),
+          ],
         ),
-        currentPage ?? Container(),
-      ],
-    ), onVisibilityChanged: (visibilityInfo) {
-      var visiblePercentage = visibilityInfo.visibleFraction * 100;
-      if(visiblePercentage == 100.0) {
-        _videoListController.currentPlayer.play();
-      } else {
-        _videoListController.currentPlayer.pause();
-      }
-    });
+        onVisibilityChanged: (visibilityInfo) {
+          var visiblePercentage = visibilityInfo.visibleFraction * 100;
+          if (visiblePercentage == 100.0) {
+            _videoListController.currentPlayer.play();
+          } else {
+            _videoListController.currentPlayer.pause();
+          }
+        });
   }
 }

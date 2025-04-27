@@ -1,11 +1,8 @@
 import 'package:flutter_tiktok/mock/video.dart';
 import 'package:flutter_tiktok/style/physics.dart';
-import 'package:flutter_tiktok/views/tikTokCommentBottomSheet.dart';
-import 'package:flutter_tiktok/views/tikTokScaffold.dart';
-import 'package:flutter_tiktok/views/tikTokVideo.dart';
-import 'package:flutter_tiktok/views/tikTokVideoButtonColumn.dart';
-import 'package:flutter_tiktok/controller/tikTokVideoListController.dart';
-import 'package:flutter_tiktok/views/tiktokTabBar.dart';
+import 'package:flutter_tiktok/views/drama_video.dart';
+import 'package:flutter_tiktok/views/drama_video_button_column.dart';
+import 'package:flutter_tiktok/controller/video_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:safemap/safemap.dart';
 import 'package:video_player/video_player.dart';
@@ -19,13 +16,10 @@ class VideoPage extends StatefulWidget {
 }
 
 class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
-  TikTokPageTag tabBarType = TikTokPageTag.home;
-
-  TikTokScaffoldController tkController = TikTokScaffoldController();
 
   PageController _pageController = PageController();
 
-  TikTokVideoListController _videoListController = TikTokVideoListController();
+  VideoListController _videoListController = VideoListController();
 
   /// 记录点赞
   Map<int, bool> favoriteMap = {};
@@ -77,15 +71,7 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
     _videoListController.addListener(() {
       setState(() {});
     });
-    tkController.addListener(
-      () {
-        if (tkController.value == TikTokPagePositon.middle) {
-          _videoListController.currentPlayer.play();
-        } else {
-          _videoListController.currentPlayer.pause();
-        }
-      },
-    );
+
 
     super.initState();
   }
@@ -126,28 +112,19 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
               var player = _videoListController.playerOfIndex(i)!;
               var data = player.videoInfo!;
               // 右侧按钮列
-              Widget buttons = TikTokButtonColumn(
+              Widget buttons = DramaButtonColumn(
                 isFavorite: isF,
-                onAvatar: () {
-                  tkController.animateToPage(TikTokPagePositon.right);
-                },
+
                 onFavorite: () {
                   setState(() {
                     favoriteMap[i] = !isF;
                   });
                   // showAboutDialog(context: context);
                 },
-                onComment: () {
-                  CustomBottomSheet.showModalBottomSheet(
-                    backgroundColor: Colors.white.withOpacity(0),
-                    context: context,
-                    builder: (BuildContext context) =>
-                        TikTokCommentBottomSheet(),
-                  );
-                },
+
                 onShare: () {},
               );
-              return TikTokVideoPage(
+              return DramaVideoPage(
                 // 手势播放与自然播放都会产生暂停按钮状态变化，待处理
                 hidePauseIcon: !player.showPauseIcon.value,
                 aspectRatio: 9 / 16.0,

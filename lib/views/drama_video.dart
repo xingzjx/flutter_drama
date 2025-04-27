@@ -1,5 +1,5 @@
 import 'package:flutter_tiktok/style/style.dart';
-import 'package:flutter_tiktok/views/tikTokVideoGesture.dart';
+import 'package:flutter_tiktok/views/drama_video_gesture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -11,7 +11,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 /// 长宽比控制
 /// 底部padding（用于适配有沉浸式底部状态栏时）
 ///
-class TikTokVideoPage extends StatelessWidget {
+class DramaVideoPage extends StatelessWidget {
   final Widget? video;
   final double aspectRatio;
   final String? tag;
@@ -25,7 +25,7 @@ class TikTokVideoPage extends StatelessWidget {
   final Function? onAddFavorite;
   final Function? onSingleTap;
 
-  const TikTokVideoPage({
+  const DramaVideoPage({
     Key? key,
     this.bottomPadding = 16,
     this.tag,
@@ -64,7 +64,7 @@ class TikTokVideoPage extends StatelessWidget {
             ),
           ),
         ),
-        TikTokVideoGesture(
+        DramaVideoGesture(
           onAddFavorite: onAddFavorite,
           onSingleTap: onSingleTap,
           child: Container(
@@ -176,7 +176,7 @@ class VideoUserInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '@朱二旦的枯燥生活',
+            'New Drama Thi...',
             style: StandardTextStyle.big,
           ),
           Container(height: 6),

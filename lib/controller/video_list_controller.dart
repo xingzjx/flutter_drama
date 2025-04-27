@@ -12,8 +12,8 @@ typedef LoadMoreVideo = Future<List<VPVideoController>> Function(
 
 /// TikTokVideoListController是一系列视频的控制器，内部管理了视频控制器数组
 /// 提供了预加载/释放/加载更多功能
-class TikTokVideoListController extends ChangeNotifier {
-  TikTokVideoListController({
+class VideoListController extends ChangeNotifier {
+  VideoListController({
     this.loadMoreCount = 1,
     this.preloadCount = 2,
 

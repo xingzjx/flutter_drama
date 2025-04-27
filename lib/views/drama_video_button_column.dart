@@ -2,7 +2,7 @@ import 'package:flutter_tiktok/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:tapped/tapped.dart';
 
-class TikTokButtonColumn extends StatelessWidget {
+class DramaButtonColumn extends StatelessWidget {
   final double? bottomPadding;
   final bool isFavorite;
   final Function? onFavorite;
@@ -10,7 +10,7 @@ class TikTokButtonColumn extends StatelessWidget {
   final Function? onShare;
   final Function? onAvatar;
 
-  const TikTokButtonColumn({
+  const DramaButtonColumn({
     Key? key,
     this.bottomPadding,
     this.onFavorite,

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 /// 视频手势封装
 /// 单击：暂停
 /// 双击：点赞，双击后再次单击也是增加点赞爱心
-class TikTokVideoGesture extends StatefulWidget {
-  const TikTokVideoGesture({
+class DramaVideoGesture extends StatefulWidget {
+  const DramaVideoGesture({
     Key? key,
     required this.child,
     this.onAddFavorite,
@@ -19,10 +19,10 @@ class TikTokVideoGesture extends StatefulWidget {
   final Widget child;
 
   @override
-  _TikTokVideoGestureState createState() => _TikTokVideoGestureState();
+  _DramaVideoGestureState createState() => _DramaVideoGestureState();
 }
 
-class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
+class _DramaVideoGestureState extends State<DramaVideoGesture> {
   GlobalKey _key = GlobalKey();
 
   // 内部转换坐标点
