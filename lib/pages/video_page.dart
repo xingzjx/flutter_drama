@@ -41,8 +41,10 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    print("video page dispose=============");
     WidgetsBinding.instance.removeObserver(this);
     _videoListController.currentPlayer.pause();
+    _videoListController.dispose();
     super.dispose();
   }
 
