@@ -190,7 +190,7 @@ class VideoUserInfo extends StatelessWidget {
               Icon(Icons.music_note, size: 14),
               Expanded(
                 child: Text(
-                  '朱二旦的枯燥生活创作的原声',
+                  'Working girl Lin Qinglang was deceived by the scumbag',
                   maxLines: 9,
                   style: StandardTextStyle.normal,
                 ),

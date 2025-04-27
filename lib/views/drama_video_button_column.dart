@@ -34,7 +34,7 @@ class DramaButtonColumn extends StatelessWidget {
         children: <Widget>[
           _IconButton(
             icon: IconToText(Icons.share, size: SysSize.iconBig),
-            text: '346',
+            text: 'share',
             onTap: onShare,
           ),
           FavoriteIcon(
@@ -73,7 +73,7 @@ class FavoriteIcon extends StatelessWidget {
         size: SysSize.iconBig,
         color: isFavorite! ? ColorPlate.red : null,
       ),
-      text: '1.0w',
+      text: 'collect',
       onTap: onFavorite,
     );
   }
