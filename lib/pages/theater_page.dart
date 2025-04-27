@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tiktok/pages/home_page.dart';
+import 'package:flutter_tiktok/pages/video_page.dart';
 
 class TheaterPage extends StatelessWidget {
   const TheaterPage({super.key});
@@ -12,7 +13,7 @@ class TheaterPage extends StatelessWidget {
       body:  GestureDetector(
         onTap: ()=> Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => VideoPage()),
         ),
         child: Center(
           child: Text('剧场内容区域', style: TextStyle(fontSize: 24)),
