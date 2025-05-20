@@ -22,6 +22,9 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
 
   List<UserVideo> videoDataList = [];
 
+  late DateTime _initializedTime;
+  late DateTime _firstFrameRenderedTime;
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state != AppLifecycleState.resumed) {
@@ -69,6 +72,18 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
     );
     _videoListController.addListener(() {
       setState(() {});
+    });
+
+    _initializedTime = DateTime.now();
+
+    _videoListController.currentPlayer.controller.addListener((){
+      if(_videoListController.currentPlayer.controller.value.isPlaying) {
+        _firstFrameRenderedTime = DateTime.now();
+        // 计算并打印首帧渲染时间
+        Duration firstFrameDuration = _firstFrameRenderedTime.difference(_initializedTime);
+        debugPrint('首帧渲染时间: ${firstFrameDuration.inMilliseconds} 毫秒');
+        _videoListController.currentPlayer.controller.removeListener(() {});
+      }
     });
 
     super.initState();

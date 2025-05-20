@@ -35,9 +35,9 @@ class UserVideo {
   static List<UserVideo> fetchDetail() {
     List<UserVideo> list = [];
     String dramaId = "1054249334816202752";
-    dramaId = "1048137366459998208";
+    // dramaId = "1048137366459998208";
     // dramaId = "1049469131724251136";
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1; i++) {
       var item = UserVideo(
           image: '',
           url: "/sdcard/test/$dramaId/${i + 1}_file_replace.m3u8",
