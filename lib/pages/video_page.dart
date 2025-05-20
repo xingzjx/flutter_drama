@@ -7,14 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:safemap/safemap.dart';
 import 'package:video_player/video_player.dart';
 
-
 class VideoPage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
-
   PageController _pageController = PageController();
 
   VideoListController _videoListController = VideoListController();
@@ -42,7 +40,7 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    videoDataList = UserVideo.fetchVideo();
+    videoDataList = UserVideo.fetchDetail();
     WidgetsBinding.instance.addObserver(this);
     _videoListController.init(
       pageController: _pageController,
@@ -50,7 +48,10 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
           .map(
             (e) => VPVideoController(
               videoInfo: e,
-              builder: () => VideoPlayerController.networkUrl(Uri.parse(e.url)),
+              builder: () => VideoPlayerController.networkUrl(
+                Uri.parse(e.url),
+                formatHint: VideoFormat.hls,
+              ),
             ),
           )
           .toList(),
@@ -69,7 +70,6 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
     _videoListController.addListener(() {
       setState(() {});
     });
-
 
     super.initState();
   }
@@ -112,14 +112,12 @@ class _HomePageState extends State<VideoPage> with WidgetsBindingObserver {
               // 右侧按钮列
               Widget buttons = DramaButtonColumn(
                 isFavorite: isF,
-
                 onFavorite: () {
                   setState(() {
                     favoriteMap[i] = !isF;
                   });
                   // showAboutDialog(context: context);
                 },
-
                 onShare: () {},
               );
               return DramaVideoPage(

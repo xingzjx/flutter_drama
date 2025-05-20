@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter_tiktok/mock/video.dart';
 import 'package:flutter_tiktok/style/physics.dart';
 import 'package:flutter_tiktok/views/drama_video.dart';
 import 'package:flutter_tiktok/views/drama_video_button_column.dart';
 import 'package:flutter_tiktok/controller/video_list_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:safemap/safemap.dart';
+
 import 'package:video_player/video_player.dart';
+
 
 /// 单独修改了bottomSheet组件的高度
 import 'package:visibility_detector/visibility_detector.dart';
@@ -41,6 +46,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    Permission.manageExternalStorage.request();
+
+
     videoDataList = UserVideo.fetchVideo();
     WidgetsBinding.instance.addObserver(this);
     _videoListController.init(
