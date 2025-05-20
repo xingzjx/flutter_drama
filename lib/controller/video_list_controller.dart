@@ -15,7 +15,7 @@ typedef LoadMoreVideo = Future<List<VPVideoController>> Function(
 class VideoListController extends ChangeNotifier {
   VideoListController({
     this.loadMoreCount = 1,
-    this.preloadCount = 2,
+    this.preloadCount = 1,
 
     /// TODO: VideoPlayer有bug(安卓)，当前只能设置为0
     /// 设置为0后，任何不在画面内的视频都会被释放
@@ -57,24 +57,28 @@ class VideoListController extends ChangeNotifier {
     playerOfIndex(newIndex)?.play();
     print('播放$newIndex');
     // 处理预加载/释放内存
+    List<int> freeList = [];
     for (var i = 0; i < playerList.length; i++) {
       /// 需要释放[disposeCount]之前的视频
       /// i < newIndex - disposeCount 向下滑动时释放视频
       /// i > newIndex + disposeCount 向上滑动，同时避免disposeCount设置为0时失去视频预加载功能
-      if (i < newIndex - disposeCount || i > newIndex + max(disposeCount, 2)) {
-        print('释放$i');
+      if (i < newIndex - disposeCount || i > newIndex + max(disposeCount, preloadCount)) {
+        // print('释放$i');
+        freeList.add(i);
         playerOfIndex(i)?.controller.removeListener(_didUpdateValue);
         playerOfIndex(i)?.showPauseIcon.removeListener(_didUpdateValue);
         playerOfIndex(i)?.dispose();
         continue;
       }
+
       // 需要预加载
-      if (i > newIndex && i < newIndex + preloadCount) {
+      if (i > newIndex && i <= newIndex + preloadCount) {
         print('预加载$i');
         playerOfIndex(i)?.init();
         continue;
       }
     }
+    print("释放： $freeList");
     // 快到最底部，添加更多视频
     if (playerList.length - newIndex <= loadMoreCount + 1) {
       _videoProvider?.call(newIndex, playerList).then(
